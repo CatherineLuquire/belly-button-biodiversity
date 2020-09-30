@@ -1,9 +1,12 @@
 
 
 function buildPlot(id) {
+    console.log(id)
     d3.json("./samples.json").then(jsondata => {
         console.log(jsondata)
-        var otu_ids = jsondata.samples[0].otu_ids;
+        var selected_id = jsondata.samples.filter(entry => entry.id === id);
+        console.log(selected_id)
+        var otu_ids = selected_id[0].otu_ids;
         console.log("otu_ids")
         console.log(otu_ids)
         var otu_ids_reversed = otu_ids.slice(0, 10).reverse();
@@ -12,11 +15,11 @@ function buildPlot(id) {
         console.log(charting_ids)
         console.log("labels")
         console.log(otu_ids)
-        var values = jsondata.samples[0].sample_values;
+        var values = selected_id[0].sample_values;
         var bar_values = values.slice(0, 10).reverse();
         console.log("bar values")
         console.log(bar_values)
-        var hovertext = jsondata.samples[0].otu_labels;
+        var hovertext = selected_id[0].otu_labels;
         var bar_hovertext = hovertext.slice(0, 10).reverse();
 
         console.log("hovertext")
@@ -35,10 +38,7 @@ function buildPlot(id) {
             title: "top 10 OTU",
         };
 
-        
-
     Plotly.newPlot("bar", data, layout);
-
 
         var trace1 = {
             x: otu_ids,
@@ -46,6 +46,7 @@ function buildPlot(id) {
             text: hovertext,
             mode: 'markers',
             marker: {
+                colorscale: "Rainbow",
                 color: otu_ids,
                 size: values, 
         }};
@@ -69,12 +70,13 @@ function getMetadata(id) {
         console.log(result)
         demoResult = d3.select("#sample-metadata");
         demoResult.html("");
-        Object.values(result).forEach((key, value) => {
-            demoResult.append("h3").text(key[0], value[0])
+        Object.entries(result).forEach(([key, value]) => {
+            demoResult.append("h5").text(`${key} : ${value}`)
         })})};
     
 
 function optionChanged(id) {
+    console.log(id)
     buildPlot(id);
     getMetadata(id);
 
@@ -87,7 +89,7 @@ function init() {
     d3.json("samples.json").then(jsondata => {
         console.log(jsondata)
         jsondata.names.forEach(function (name) {
-            dropdown.append("option").text(name).property("value");
+            dropdown.append("option").text(name).property("value", name);
         });
         //define first sample to call plots on initial rendering
         var firstSample = jsondata.names[0];

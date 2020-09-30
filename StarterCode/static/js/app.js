@@ -5,6 +5,8 @@ function buildPlot(id) {
     d3.json("./samples.json").then(jsondata => {
         console.log(jsondata)
         var selected_id = jsondata.samples.filter(entry => entry.id === id);
+        var meta_id = jsondata.metadata.filter(entry => entry.id == id);
+        console.log(meta_id)
         console.log(selected_id)
         var otu_ids = selected_id[0].otu_ids;
         console.log("otu_ids")
@@ -21,6 +23,8 @@ function buildPlot(id) {
         console.log(bar_values)
         var hovertext = selected_id[0].otu_labels;
         var bar_hovertext = hovertext.slice(0, 10).reverse();
+        var wpw = meta_id[0].wfreq;
+        console.log(wpw)
 
         console.log("hovertext")
         console.log(bar_hovertext)
@@ -58,7 +62,43 @@ function buildPlot(id) {
             height: 600,
             width: 1000
         };
-    Plotly.newPlot("bubble", data1, layout1)
+    Plotly.newPlot("bubble", data1, layout1);
+
+        var data2 = [
+            {
+                domain: { x: [0,1], y: [0,1]},
+                value: wpw,
+                title: "Belly Button Washes per Week",
+                type: "indicator",
+                mode: "gauge+number+delta",
+                delta: {reference: 7, increasing: {color: "green"}},
+                gauge: {
+                    axis: {range: [0, 9]},
+                    bar: {color: "black"},
+                    bgcolor: "white",
+                    borderwidth: 2,
+                    bordercolor: "gray",
+                    steps: [
+                        {range: [0-4], color: "red"},
+                        {range: [2-4], color: "yellow"},
+                        {range: [4-6], color: "green"},
+                        {range: [6-9], color: "blue"}
+                    ],
+                    threshold: {
+                        line: {color: "black", width: 4},
+                        thickness: 0.75,
+                        value: 7
+                    }
+                } 
+            }
+        ];
+        var layout2 = {
+            // title: "Belly Button Washing Gauge",
+            // heigh: 100,
+            // width: 400,
+            // margin: {t: 0, b: 0}
+        };
+    Plotly.newPlot("gauge", data2, layout2);
 });
 }
 

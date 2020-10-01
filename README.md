@@ -24,20 +24,21 @@ Installation:
 2. Link d3 script in index body for javascript code functionality.
 3. Link plotly script in index body for charting purposes.
 4. Reference app.js and samples.json in index body to link dataset and code. 
+
 Usage:
 1. Select "Test Subject ID No" from the dropdown list to see OTU, demographic, and washing frequency for each different subject. 
 
 ## Development Process
 
 * Used d3 to bind the data to the HTML document and build interactive visualizations including charts, a panel of demograpic information, and a dropdown menu to select different test subjects.
-![Dropdown Menu](images/dropdown_menu.jpg)
+![Dropdown Menu](images/dropdown_menu.png)
 * Used Plotly to create interactive chart visualizations including: 
 1. a horizontal bar chart displaying the amount of the 10 most prolific bacteria found in the test subject's belly button.
-[!Horizontal Bar Chart](images/horizontal_bar_chart.png)
+![Horizontal Bar Chart](images/horizontal_bar_chart.png)
 2. a bubble chart to visualize the amount of each bacteria, scaled to the quantity found.
-[!Bubble Chart](images/bubble_plot.png)
+![Bubble Chart](images/bubble_plot.png)
 3. a gauge to visualize the amount of times the test subject washes their belly button a week.
-[!Washing Gauge](images/washing_gauge.png)
+![Washing Gauge](images/washing_gauge.png)
 
 ## Data Sources
 * [Link to local Belly Button Data](samples.json)

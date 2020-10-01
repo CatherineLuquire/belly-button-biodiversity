@@ -1,34 +1,30 @@
 
-
+// create function to build plots on id variable
 function buildPlot(id) {
-    console.log(id)
+    //fetch the json data, console.log it, and assign variables to different arrays
     d3.json("./samples.json").then(jsondata => {
         console.log(jsondata)
+        // filter sample json data by id selected from dropdown menu
         var selected_id = jsondata.samples.filter(entry => entry.id === id);
+        // filter metadata json data by id selected from dropdown menu
         var meta_id = jsondata.metadata.filter(entry => entry.id == id);
-        console.log(meta_id)
-        console.log(selected_id)
+        // set variable for array of otu ids
         var otu_ids = selected_id[0].otu_ids;
-        console.log("otu_ids")
-        console.log(otu_ids)
+        // get top 10 otus and reverse the order for the horizontal bar chart
         var otu_ids_reversed = otu_ids.slice(0, 10).reverse();
+        // return array of otu ids for labeling chart
         var charting_ids = otu_ids_reversed.map(id => "OTU- " + id);
-        console.log("chart_ids")
-        console.log(charting_ids)
-        console.log("labels")
-        console.log(otu_ids)
+        // return array of all sample values 
         var values = selected_id[0].sample_values;
+        // get top 10 values and reverse the order for the horizontal bar chart
         var bar_values = values.slice(0, 10).reverse();
-        console.log("bar values")
-        console.log(bar_values)
+        // get otu labels to assign to hovertext
         var hovertext = selected_id[0].otu_labels;
+        // get top 10 otu labels and reverse the order for the horizontal bar chart
         var bar_hovertext = hovertext.slice(0, 10).reverse();
+        // set washing frequency to variable for gauge chart
         var wpw = meta_id[0].wfreq;
-        console.log(wpw)
-
-        console.log("hovertext")
-        console.log(bar_hovertext)
-
+        // define trace & layout for horizontal bar chart 
         var trace = {
             x: bar_values,
             y: charting_ids,
@@ -36,14 +32,15 @@ function buildPlot(id) {
             orientation: "h",
             text: bar_hovertext,
         };
-
         var data = [trace];
         var layout = {
-            title: "top 10 OTU",
+            title: "Top 10 OTUs",
+            xaxis: {
+                title: "Value"},
         };
-
+    // plot bar chart
     Plotly.newPlot("bar", data, layout);
-
+        // define trace and layout for bubble chart
         var trace1 = {
             x: otu_ids,
             y: values,
@@ -59,11 +56,18 @@ function buildPlot(id) {
 
         var layout1 = {
             title: "Bubble Chart",
-            height: 600,
-            width: 1000
+            xaxis: {
+                title: "OTU ID"
+            },
+            yaxis: {
+                title: "Value"
+            },
+            height: 750,
+            width: 1050
         };
+    // plot bubble chart
     Plotly.newPlot("bubble", data1, layout1);
-
+        // define data and layout for gauge
         var data2 = [
             {
                 domain: { x: [0,1], y: [0,1]},
@@ -71,10 +75,10 @@ function buildPlot(id) {
                 title: "Belly Button Washes per Week",
                 type: "indicator",
                 mode: "gauge+number+delta",
-                delta: {reference: 7, increasing: {color: "green"}},
+                delta: {reference: 7, increasing: {color: "#73C6B6"}},
                 gauge: {
                     axis: {range: [0, 9]},
-                    bar: {color: "black"},
+                    bar: {color: "#73C6B6"},
                     bgcolor: "white",
                     borderwidth: 2,
                     bordercolor: "gray",
@@ -98,46 +102,49 @@ function buildPlot(id) {
             // width: 400,
             // margin: {t: 0, b: 0}
         };
+    // plot gauge chart
     Plotly.newPlot("gauge", data2, layout2);
 });
 }
-
+// create function to fill demographic info on id variable 
 function getMetadata(id) {
+    //fetch the json data
     d3.json("./samples.json").then(jsondata => {
+        // create variable for all metadata
         var metadata = jsondata.metadata;
-        console.log(metadata)
+        // filter metadata by id selected from dropdown menu and assign to variable
         var result = metadata.filter(md => md.id.toString()=== id)[0];
-        console.log(result)
+        // assign variable to dropdown menu selection
         demoResult = d3.select("#sample-metadata");
+        // clear any previous html results
         demoResult.html("");
+        // fill demographic info with new DemoResult 
         Object.entries(result).forEach(([key, value]) => {
             demoResult.append("h5").text(`${key} : ${value}`)
         })})};
     
-
+// create function to call plot and metadata functions upon selection from dropdown menu
 function optionChanged(id) {
-    console.log(id)
     buildPlot(id);
     getMetadata(id);
-
 }
-
+// create init function
 function init() {
+    // create variable for dropdown menu
     var dropdown = d3.select("#selDataset");
-    console.log(dropdown)
-
     d3.json("samples.json").then(jsondata => {
         console.log(jsondata)
+        // populate dropdown menu
         jsondata.names.forEach(function (name) {
             dropdown.append("option").text(name).property("value", name);
         });
-        //define first sample to call plots on initial rendering
+        // create variable for first sample to populate charts and metadata on initial rendering
         var firstSample = jsondata.names[0];
         console.log(firstSample);
         buildPlot(firstSample);
         getMetadata(firstSample);
     });
 }
-
+// call init function
 init();
 

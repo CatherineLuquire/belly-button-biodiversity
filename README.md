@@ -30,7 +30,8 @@ Usage:
 
 ## Development Process
 
-* Used d3 to bind the data to the HTML document and build interactive visualizations including charts, a panel of demograpic information, and a dropdown menu to select different test subjects.
+* Used d3 to bind the data to the HTML document and build interactive visualizations including charts, a panel of demograpic information, and a dropdown menu to select different test subjects:
+
   ![Dropdown Menu](images/dropdown_menu.png)
 * Used Plotly to create interactive chart visualizations including: 
 1. a horizontal bar chart displaying the amount of the 10 most prolific bacteria found in the test subject's belly button.

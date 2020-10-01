@@ -24,6 +24,7 @@ Installation:
 2. Link d3 script in index body for javascript code functionality.
 3. Link plotly script in index body for charting purposes.
 4. Reference app.js and samples.json in index body to link dataset and code. 
+
 Usage:
 1. Select "Test Subject ID No" from the dropdown list to see OTU, demographic, and washing frequency for each different subject. 
 

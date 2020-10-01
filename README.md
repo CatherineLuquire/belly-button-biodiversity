@@ -12,20 +12,22 @@ Created interactive dashboard to view top belly button bacteria, number of washe
 
 ## Technologies
 
-* Python:
-  * Flask - version 1.0.2
-  * Flask-SQLAlchemy - version 2.3.2
-  * Jinja2 - version 2.10.1
-  * numpy - 1.14.5
-  * pandas - 0.23.3
-  * SQLAlchemy - 1.3.0
 * Javascript:
   * d3 - version 5.5
-  * Plotly - version 1.49.1
+  * Plotly - version 1.56.0
 * HTML & CSS
-  * Boostrap - version 4.3.1
+  * Bootstrap - version 3.3.7
 
 ## Installation and Usage
+Installation: 
+1. Link Bootstrap stylesheet in index header for HTML visualization and functionality.
+2. Link d3 script in index body for javascript code functionality.
+3. Link plotly script in index body for charting purposes.
+4. Reference app.js and samples.json in index body to link dataset and code. 
+Usage:
+1. Select "Test Subject ID No" from the dropdown list to see OTU, demographic, and washing frequency for each different subject. 
+
 ## Development Process
+
 ## Data Sources
 ## Contact

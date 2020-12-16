@@ -2,7 +2,7 @@
 
 Created interactive dashboard to view top belly button bacteria, number of washes per week, and demographic info of study test subjects.
 
-Website hosted by GitHub pages: https://catherineluquire.github.io/belly-button-biodiversity/
+Dashboard hosted by GitHub pages: https://catherineluquire.github.io/belly-button-biodiversity/
 
 ## Table of contents
 
